@@ -13,7 +13,6 @@ export default function Franchisees () {
   const { list, status } = useSelector(s => s.franchisees)
   const { locationsDict, locationsStatus } = useSelector(s => s.locations)
   const { salesDict, salesStatus } = useSelector(s => s.sales)
-  console.log(salesDict)
   return (
     <div>
       <h4>
