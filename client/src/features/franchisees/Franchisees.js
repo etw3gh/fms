@@ -1,3 +1,5 @@
+import './franchisees.css'
+import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import {
   Table,
@@ -9,10 +11,23 @@ import {
 
 export default function Franchisees () {
   const { list, status } = useSelector(s => s.franchisees)
-  console.log(list)
+  const { locationsDict, locationsStatus } = useSelector(s => s.locations)
+  const { salesDict, salesStatus } = useSelector(s => s.sales)
+  console.log(salesDict)
   return (
     <div>
-      <h5>Franchisees</h5>
+      <h4>
+        Franchisees
+      </h4>
+      <h6>
+        all amounts are pre-tax
+      </h6>
+      <h5>
+        Total Sales: ${salesDict && salesDict.totalSales}
+      </h5>
+      <h5>
+        Total Fees: ${salesDict && salesDict.totalFee}
+      </h5>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
@@ -20,23 +35,39 @@ export default function Franchisees () {
               Name
             </TableCell>
             <TableCell>
-              Locations
+              <span className='justified-container'>
+                <span className='justified-element' style={{textAlign: 'justify'}}>
+                  Location | Total Sales | Fee
+                </span>
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {
-            !list ? <div>Loading...</div> : null
+            status !== 'ok' ? <div>Loading...</div> : null
           }
           {
-            list && list.map((f, i) => {
+            status === 'ok' && list.map((f, i) => {
               return (
                 <TableRow key={i}>
                   <TableCell>
                     {f.last_name}, {f.first_name}
                   </TableCell>
                   <TableCell>
-                    {JSON.stringify(f.location_ids, null, 2)}
+                    {
+                      salesStatus === 'ok' && locationsStatus === 'ok' ? (
+                        f.location_ids.map((id, i) => {
+                          const { fee, total } = salesDict[id]
+                          return (
+                            <Fragment key={i}>
+                              {locationsDict[id]} | ${total} | ${fee}
+                              <br />
+                            </Fragment>
+                          )
+                        })
+                      ) : null
+                    }
                   </TableCell>
                 </TableRow>
               )

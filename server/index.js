@@ -12,6 +12,11 @@ app.use(cors())
 
 app.listen(3333, () => console.log('Express on 3333'))
 
+// 10 % francise fee
+const FEE = 0.1
+
+const roundMoney = m => (Math.round(m * 100) / 100).toFixed(2)
+
 app.get('/franchisees', async (req, res) => {
   try {
     const sorted = franchisees.sort((a,b) => {
@@ -38,7 +43,26 @@ app.get('/locations', async (req, res) => {
 app.get('/sales', async (req, res) => {
   try {
     const data = await groupBy(sales, f => f.location_id)
-    res.send(data)
+    const totalSales = sales
+      .map(sale => sale.subtotal)
+      .reduce((a, b) => a + b)
+
+    for (let [k, v] of Object.entries(data)) {
+      const total = v
+        .map(sale => sale.subtotal)
+        .reduce((a, b) => a + b)
+      data[k] = {
+        sales: v,
+        totalSales: roundMoney(total),
+        fee: roundMoney(total * FEE),
+      }
+    }
+    res.send({
+      ...data,
+      totalSales: roundMoney(totalSales),
+      totalFee: roundMoney(totalSales * FEE),
+    })
+
   } catch (e) {
     res.sendStatus(http.BAD_REQUEST)
   }

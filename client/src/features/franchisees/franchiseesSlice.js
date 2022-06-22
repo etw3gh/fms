@@ -28,8 +28,7 @@ export const franchiseesSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchFranchisees.fulfilled, (state, action) => {
-        state.status = 'idle'
-        console.log(action)
+        state.status = 'ok'
         state.list = action.payload
       })
   },

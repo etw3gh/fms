@@ -1,0 +1,6 @@
+.justified-container {
+  text-align: justify;
+}
+.justified-element {
+  display: inline-block;
+}
