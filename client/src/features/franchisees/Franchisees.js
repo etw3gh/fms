@@ -45,10 +45,10 @@ export default function Franchisees () {
         <TableBody>
           {
             status !== 'ok' ? (
-            <TableRow>
-              <TableCell colSpan={2}>
-                Loading...
-              </TableCell>
+              <TableRow>
+                <TableCell colSpan={2}>
+                  Loading...
+                </TableCell>
               </TableRow>
             ) : null
           }
