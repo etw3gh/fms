@@ -19,8 +19,7 @@ app.get('/franchisees', async (req, res) => {
       if (a.last_name > b.last_name) return 1
       return 0
     })
-    const data = await groupBy(sorted, f => f._id)
-    res.send(data)
+    res.send(sorted)
   } catch (e) {
     res.sendStatus(http.BAD_REQUEST)
   }
