@@ -46,6 +46,7 @@ app.get('/locations', async (req, res) => {
 // each location also has fee and total sales calculated and rounded
 app.get('/sales', async (req, res) => {
   try {
+    // groupBy is not async but would be if we called an external service such as a DB
     const data = await groupBy(sales, f => f.location_id)
     const totalSales = sales
       .map(sale => sale.subtotal)
