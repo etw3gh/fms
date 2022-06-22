@@ -53,7 +53,7 @@ app.get('/sales', async (req, res) => {
         .reduce((a, b) => a + b)
       data[k] = {
         sales: v,
-        totalSales: roundMoney(total),
+        total: roundMoney(total),
         fee: roundMoney(total * FEE),
       }
     }
