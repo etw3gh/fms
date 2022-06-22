@@ -14,7 +14,12 @@ app.listen(3333, () => console.log('Express on 3333'))
 
 app.get('/franchisees', async (req, res) => {
   try {
-    const data = await groupBy(franchisees, f => f._id)
+    const sorted = franchisees.sort((a,b) => {
+      if (a.last_name < b.last_name) return -1
+      if (a.last_name > b.last_name) return 1
+      return 0
+    })
+    const data = await groupBy(sorted, f => f._id)
     res.send(data)
   } catch (e) {
     res.sendStatus(http.BAD_REQUEST)
