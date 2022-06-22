@@ -44,7 +44,13 @@ export default function Franchisees () {
         </TableHead>
         <TableBody>
           {
-            status !== 'ok' ? <span>Loading...</span> : null
+            status !== 'ok' ? (
+            <TableRow>
+              <TableCell colSpan={2}>
+                Loading...
+              </TableCell>
+              </TableRow>
+            ) : null
           }
           {
             status === 'ok' && list.map((f, i) => {
